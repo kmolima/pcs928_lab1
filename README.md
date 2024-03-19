@@ -1,1 +1,1 @@
-# pcs928_lab1
+# PCS928 Sensor Networks -- Lab 1 source code
