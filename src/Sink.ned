@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package lab1_prep;
+package assignment1;
 
 //
 // Consumes received messages and collects statistics

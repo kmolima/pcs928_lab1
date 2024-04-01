@@ -13,7 +13,7 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-package lab1_prep;
+package assignment1;
 
 //
 // Generates messages with a configurable interarrival time.
@@ -21,7 +21,7 @@ package lab1_prep;
 simple Source
 {
     parameters:
-        volatile double sendInterval @unit(s) = default(exponential(1s));
+        volatile double sendInterval @unit(s) = default(1s); //exponential(1s) or 1s
         @display("i=block/source");
     gates:
         output out;

@@ -13,33 +13,28 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __ASSIGNMENT1_SOURCE_H
-#define __ASSIGNMENT1_SOURCE_H
+package assignment1.simulations;
 
-#include <omnetpp.h>
+import assignment1.Source;
+import assignment1.Sink;
 
-using namespace omnetpp;
-
-namespace assignment1 {
-
-/**
- * Generates messages; see NED file for more info.
- */
-class Source : public cSimpleModule
+//
+// Sample network, consisting of a source and a sink.
+//
+network SourceSink
 {
-  private:
-    cMessage *timerMessage;
-    int counter;
 
-  public:
-     Source();
-     virtual ~Source();
+    parameters:
+        int num = 30;
+        @display("bgb=204.12001,171.72");
+    submodules:
+        source[num]: Source {
+        }
+        sink: Sink;
 
-  protected:
-    virtual void initialize();
-    virtual void handleMessage(cMessage *msg);
-};
+    connections:
+        for i=0..num-1 {
+            source[i].out --> sink.in[i];
+        }
 
-}; // namespace
-
-#endif
+}

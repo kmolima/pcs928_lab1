@@ -13,14 +13,14 @@
 // along with this program.  If not, see http://www.gnu.org/licenses/.
 // 
 
-#ifndef __LAB1_PREP_SINK_H
-#define __LAB1_PREP_SINK_H
+#ifndef __ASSIGNMENT1_SINK_H
+#define __ASSIGNMENT1_SINK_H
 
 #include <omnetpp.h>
 
 using namespace omnetpp;
 
-namespace lab1_prep {
+namespace assignment1 {
 
 /**
  * Message sink; see NED file for more info.
@@ -29,12 +29,16 @@ class Sink : public cSimpleModule
 {
   private:
     // state
-    simtime_t lastArrival;
+    simtime_t lastArrival[30];
+    int arrivalsVector[30];
 
     // statistics
-    cHistogram iaTimeHistogram;
-    cOutVector arrivalsVector;
-    cOutVector difference;
+    cHistogram iaTimeHistogram[30];
+    cOutVector outOfOrderVector[30];
+    cOutVector difference[30];
+
+    //number of nodes  - NED parameter
+    int size;
 
   protected:
     virtual void initialize();

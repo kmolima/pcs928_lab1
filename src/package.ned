@@ -1,7 +1,7 @@
 // designate the NED package of this folder
-package lab1_prep;
+package assignment1;
 
 // namespace of module C++ classes
-@namespace(lab1_prep);
+@namespace(assignment1);
 
 @license(LGPL);
