@@ -1,4 +1,4 @@
 #!/bin/sh
 cd `dirname $0`
-../src/lab1_prep -n .:../src $*
-# for shared lib, use: opp_run -l ../src/lab1_prep -n .:../src $*
+../src/assignment1 -n .:../src $*
+# for shared lib, use: opp_run -l ../src/assignment1 -n .:../src $*

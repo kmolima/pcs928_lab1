@@ -22,7 +22,7 @@ Define_Module(Sink);
 void Sink::initialize()
 {
     // Get number of node modules from composed NED simulation file
-    size = getAncestorPar("num");
+    size = getAncestorPar("num"); // number of nodes and channels
 
     std::string prefix1 = "interarrival times for channel";
     std::string prefix2 = "time diff for channel";
@@ -60,27 +60,34 @@ void Sink::initialize()
 
 void Sink::handleMessage(cMessage *msg)
 {
+
     simtime_t d = simTime() - lastArrival[msg->getArrivalGate()->getIndex()];
 
+    EV << "Now: " << simTime().str() << " | Last arrival time on channel " << msg->getArrivalGate()->getIndex() << ": " << lastArrival[msg->getArrivalGate()->getIndex()].str() << endl;
+
     // Extract parameter values sent by source node
-    double source_time = msg->par("time");
-    double time_diff = simTime().dbl() - source_time;
+    double source_time = msg->par("time").doubleValue();
+    //double time_diff = simTime().dbl() - source_time;
+    simtime_t time_diff = simTime() - msg->getCreationTime(); // page 194 of simulation manual
     int seq = msg->par("seq");
 
     // Event on received job
-    EV << "Received " << msg->getName() << " with seq. no " << seq << " from source ID: " << msg->getSenderModuleId() << " on gate: " << msg->getArrivalGate()->getIndex() << " with time diff: " << time_diff << endl;
+    EV << "Received " << msg->getName() << " with seq. no " << seq << " from source ID: " << msg->getSenderModuleId() << " on gate: " << msg->getArrivalGate()->getIndex() << " with time diff: " << time_diff.dbl() << endl;
 
     // Verify sequential order
     int next = arrivalsVector[msg->getArrivalGate()->getIndex()] + 1;
     if( seq != next){
         outOfOrderVector[msg->getArrivalGate()->getIndex()].record(1);
         EV << "#####" << "Received package out of order in channel " << msg->getArrivalGate()->getIndex() << "#####" << endl;
+        bubble("Received message out of order");
     }
 
-
+    // Save statistics
     iaTimeHistogram[msg->getArrivalGate()->getIndex()].collect(d);
     difference[msg->getArrivalGate()->getIndex()].record(time_diff);
     arrivalsVector[msg->getArrivalGate()->getIndex()]=seq;
+
+    // Update last arrival for this channel
     lastArrival[msg->getArrivalGate()->getIndex()] = simTime();
 
     delete msg;
@@ -91,6 +98,7 @@ void Sink::finish()
     for (int i = 0; i < size; i++) {
         recordStatistic(&iaTimeHistogram[i]);
     }
+
 }
 
 }; // namespace

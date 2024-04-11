@@ -32,7 +32,9 @@ Source::~Source()
 void Source::initialize()
 {
     timerMessage = new cMessage("timer");
-    scheduleAt(simTime(), timerMessage);
+    //scheduleAt(simTime(), timerMessage);
+
+    scheduleAfter(par("sendInterval").doubleValue(), timerMessage); // make sure all messages are sent with same interval as below
     counter=0;
 }
 
@@ -58,16 +60,25 @@ void Source::handleMessage(cMessage *msg)
 
 
     // Send Job
-    // send(job, "out");
+    send(job, "out");
 
     // Send job with constant delay
-    double delay = 0.05;
-    sendDelayed(job, delay, "out");
+    // double delay = 0.05;
+    // sendDelayed(job, delay, "out");
 
     // Schedule the event for the next job transmission
     scheduleAfter(par("sendInterval").doubleValue(), timerMessage);
+
     // equivalent to line below - simulation manual section 4.7.1
     // scheduleAt(simTime()+par("sendInterval").doubleValue(), timerMessage);
+}
+
+void Source::finish()
+{
+    std::stringstream name;
+    name << "sent_msgs_count_" << getId();
+    recordScalar(name.str().c_str(), counter);
+
 }
 
 }; // namespace

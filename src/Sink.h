@@ -16,9 +16,13 @@
 #ifndef __ASSIGNMENT1_SINK_H
 #define __ASSIGNMENT1_SINK_H
 
+#define SIZE 10
+
+
 #include <omnetpp.h>
 
 using namespace omnetpp;
+
 
 namespace assignment1 {
 
@@ -29,13 +33,13 @@ class Sink : public cSimpleModule
 {
   private:
     // state
-    simtime_t lastArrival[30];
-    int arrivalsVector[30];
+    simtime_t lastArrival[SIZE];
+    int arrivalsVector[SIZE];
 
     // statistics
-    cHistogram iaTimeHistogram[30];
-    cOutVector outOfOrderVector[30];
-    cOutVector difference[30];
+    cHistogram iaTimeHistogram[SIZE];
+    cOutVector outOfOrderVector[SIZE];
+    cOutVector difference[SIZE];
 
     //number of nodes  - NED parameter
     int size;

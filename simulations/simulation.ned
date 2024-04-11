@@ -18,6 +18,16 @@ package assignment1.simulations;
 import assignment1.Source;
 import assignment1.Sink;
 
+
+// Delay channel
+channel DatarateChannel2 extends ned.DatarateChannel
+    {
+        // double distance @unit(m);
+        // delay = this.distance / 200000km * 1s;
+        delay=0.05s;
+        per=1e-3;
+    }
+
 //
 // Sample network, consisting of a source and a sink.
 //
@@ -25,16 +35,15 @@ network SourceSink
 {
 
     parameters:
-        int num = 30;
-        @display("bgb=204.12001,171.72");
+        int num = 10;
+        @display("bgb=250,200");
     submodules:
         source[num]: Source {
         }
         sink: Sink;
-
     connections:
         for i=0..num-1 {
-            source[i].out --> sink.in[i];
+            source[i].out --> DatarateChannel2 --> sink.in[i]; //
         }
 
 }

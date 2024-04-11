@@ -21,7 +21,7 @@ package assignment1;
 simple Source
 {
     parameters:
-        volatile double sendInterval @unit(s) = default(1s); //exponential(1s) or 1s
+        volatile double sendInterval @unit(s) = default(exponential(1s)); //exponential(1s) or 1s
         @display("i=block/source");
     gates:
         output out;
